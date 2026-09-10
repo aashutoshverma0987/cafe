@@ -1,0 +1,2903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LUMO CAFE | Tilhar</title>
+
+    <meta
+        name="description"
+        content="LUMO CAFE Tilhar - Burgers, Pizza, Sandwiches, Fries and Ice Cream."
+    >
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <!-- Razorpay Checkout & QRious CDN -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+</head>
+
+<body>
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<header class="navbar" id="navbar">
+
+    <div class="nav-container">
+
+        <!-- LOGO -->
+        <a href="{{ url_for('home') }}" class="logo">
+            <span class="logo-mark">L</span>
+
+            <span class="logo-text">
+                <strong>LUMO</strong>
+                <small>CAFE</small>
+            </span>
+        </a>
+
+
+        <!-- DESKTOP NAVIGATION -->
+        <nav class="nav-links">
+
+            <a href="#home" class="nav-link active">
+                Home
+            </a>
+
+            <a href="#menu" class="nav-link">
+                Menu
+            </a>
+
+            <a href="#offers" class="nav-link">
+                Offers
+            </a>
+
+            <a href="#about" class="nav-link">
+                About
+            </a>
+
+            <a href="#contact" class="nav-link">
+                Contact
+            </a>
+
+        </nav>
+
+
+        <!-- NAV ACTIONS -->
+        <div class="nav-actions">
+
+            {% if session.get("user_id") %}
+
+                <!-- Logged in user -->
+                <span class="welcome-user">
+                    Hi, {{ session.get("user_name") }} 👋
+                </span>
+
+                <a
+                    href="{{ url_for('logout') }}"
+                    class="login-btn"
+                >
+                    Logout
+                </a>
+
+            {% else %}
+
+                <!-- Only ONE login button -->
+                <a
+                    href="{{ url_for('login') }}"
+                    class="login-btn"
+                >
+                    Login
+                </a>
+
+            {% endif %}
+
+
+            <!-- CART -->
+            <button
+                class="cart-btn"
+                onclick="openCart()"
+                aria-label="Open cart"
+            >
+                🛒
+                <b id="cartCount">0</b>
+            </button>
+
+        </div>
+
+
+        <!-- MOBILE MENU BUTTON -->
+        <button
+            class="mobile-menu-btn"
+            id="mobileMenuBtn"
+            aria-label="Open menu"
+        >
+            ☰
+        </button>
+
+    </div>
+
+
+    <!-- MOBILE NAVIGATION -->
+    <div class="mobile-nav" id="mobileNav">
+
+        <a href="#home">
+            Home
+        </a>
+
+        <a href="#menu">
+            Menu
+        </a>
+
+        <a href="#offers">
+            Offers
+        </a>
+
+        <a href="#about">
+            About
+        </a>
+
+        <a href="#contact">
+            Contact
+        </a>
+
+        {% if session.get("user_id") %}
+
+            <a href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        {% else %}
+
+            <a href="{{ url_for('login') }}">
+                Login
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     HERO SECTION
+========================================================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-bg"></div>
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+
+        <span class="hero-small-title">
+            WELCOME TO LUMO
+        </span>
+
+        <h1>
+            Good Food.
+            <br>
+            <em>Good Mood.</em>
+        </h1>
+
+        <p>
+            Delicious burgers, pizza, sandwiches, fries
+            and ice cream — freshly prepared for you.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a
+                href="#menu"
+                class="primary-btn"
+            >
+                Explore Menu
+                <span>→</span>
+            </a>
+
+            <a
+                href="#about"
+                class="secondary-btn"
+            >
+                Discover LUMO
+            </a>
+
+        </div>
+
+
+        <!-- HERO INFO -->
+
+        <div class="hero-info">
+
+            <div class="hero-info-item">
+                <strong>🍔</strong>
+                <span>Fresh Food</span>
+            </div>
+
+            <div class="hero-info-item">
+                <strong>☕</strong>
+                <span>Great Taste</span>
+            </div>
+
+            <div class="hero-info-item">
+                <strong>❤️</strong>
+                <span>Made With Love</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SCROLL INDICATOR -->
+
+    <a href="#menu" class="scroll-indicator">
+        <span>Scroll to explore</span>
+        <b>↓</b>
+    </a>
+
+</section>
+
+
+
+<!-- =========================================================
+     MENU SECTION
+========================================================= -->
+
+<section class="menu-section" id="menu">
+
+    <div class="section-container">
+
+        <!-- SECTION HEADING -->
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                OUR MENU
+            </span>
+
+            <h2>
+                Something Delicious
+                <em>for Everyone.</em>
+            </h2>
+
+            <p>
+                Pick your favourite and enjoy the LUMO experience.
+            </p>
+
+        </div>
+
+
+        <!-- CATEGORY FILTERS -->
+
+        <div class="menu-filters">
+
+            <button
+                class="filter-btn active"
+                data-category="All"
+            >
+                All
+            </button>
+
+            <button class="filter-btn" data-category="Shawarma">🌯 Shawarma</button>
+            <button class="filter-btn" data-category="Burgers">🍔 Burgers</button>
+            <button class="filter-btn" data-category="Sandwiches">🥪 Sandwiches</button>
+            <button class="filter-btn" data-category="Fries">🍟 Fries</button>
+            <button class="filter-btn" data-category="Maggie">🍜 Maggie</button>
+            <button class="filter-btn" data-category="Pizza">🍕 Pizza</button>
+            <button class="filter-btn" data-category="Beverages">☕ Beverages</button>
+            <button class="filter-btn" data-category="Ice Cream">🍦 Ice Cream</button>
+            <button class="filter-btn" data-category="Cones">🍨 Cones</button>
+            <button class="filter-btn" data-category="Sundaes">🍧 Sundaes</button>
+            <button class="filter-btn" data-category="Ice Cream Combos">🍦 Combos</button>
+            <button class="filter-btn" data-category="Add-ons">🧀 Add-ons</button>
+
+        </div>
+
+
+        <!-- MENU GRID -->
+
+        <div class="menu-grid" id="menuGrid">
+
+            {% for item in menu_items %}
+
+            <article
+                class="menu-card"
+                data-category="{{ item.category }}"
+                data-id="{{ item.id }}"
+            >
+
+                <!-- FOOD IMAGE / EMOJI -->
+
+                <div class="menu-image">
+
+                    <span class="food-emoji">
+                        {{ item.emoji }}
+                    </span>
+
+                    <span class="category-badge">
+                        {{ item.category }}
+                    </span>
+
+                </div>
+
+
+                <!-- FOOD CONTENT -->
+
+                <div class="menu-card-content">
+
+                    <div class="menu-card-top">
+
+                        <h3>
+                            {{ item.name }}
+                        </h3>
+
+                    </div>
+
+
+                    <p>
+                        {{ item.description }}
+                    </p>
+
+
+                    <!-- PRICE -->
+
+                    <div class="menu-price-area">
+
+                        {% if item.sizes %}
+
+                            <div class="size-prices">
+
+                                {% for size, price in item.sizes.items() %}
+
+                                <span class="size-price">
+                                    {{ size }}:
+                                    <strong>
+                                        ₹{{ price }}
+                                    </strong>
+                                </span>
+
+                                {% endfor %}
+
+                            </div>
+
+                            <button
+                                class="add-btn"
+                                onclick="openProductModal({{ item.id }})"
+                            >
+                                +
+                            </button>
+
+                        {% else %}
+
+                            <strong class="menu-price">
+                                {% if item.price_label %}
+                                    {{ item.price_label }}
+                                {% else %}
+                                    ₹{{ item.price }}
+                                {% endif %}
+                            </strong>
+
+                            {% if item.price is not none %}
+                                <button
+                                    class="add-btn"
+                                    onclick="addToCart({{ item.id }})"
+                                >
+                                    +
+                                </button>
+                            {% else %}
+                                <span class="mrp-badge">MRP</span>
+                            {% endif %}
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </article>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- EMPTY MENU MESSAGE -->
+
+        <div
+            class="empty-menu"
+            id="emptyMenu"
+            style="display: none;"
+        >
+            <span>😔</span>
+
+            <h3>
+                No items found
+            </h3>
+
+            <p>
+                Please try another category.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     OFFER SECTION
+========================================================= -->
+
+<section class="offer-section" id="offers">
+
+    <div class="offer-container">
+
+        <div class="offer-content">
+
+            <span class="section-label">
+                TODAY'S SPECIAL
+            </span>
+
+            <h2>
+                Make Your
+                <em>Meal Special.</em>
+            </h2>
+
+            <p>
+                Great food doesn't need a special occasion.
+                Visit LUMO CAFE and make every moment delicious.
+            </p>
+
+            <a
+                href="#menu"
+                class="primary-btn"
+            >
+                Order Something
+                <span>→</span>
+            </a>
+
+        </div>
+
+
+        <div class="offer-visual">
+
+            <div class="offer-circle">
+
+                <span class="offer-emoji">
+                    🍕
+                </span>
+
+            </div>
+
+            <div class="offer-floating-card">
+
+                <span>✨</span>
+
+                <div>
+                    <strong>
+                        Fresh & Delicious
+                    </strong>
+
+                    <small>
+                        Made specially for you
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     ABOUT SECTION
+========================================================= -->
+
+<section class="about-section" id="about">
+
+    <div class="section-container">
+
+        <div class="about-grid">
+
+            <!-- ABOUT VISUAL -->
+
+            <div class="about-visual">
+
+                <div class="about-card-main">
+
+                    <span class="about-big-letter">
+                        L
+                    </span>
+
+                    <div class="about-brand">
+                        <strong>
+                            LUMO
+                        </strong>
+
+                        <span>
+                            CAFE
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="about-card-small">
+
+                    <strong>
+                        Tilhar
+                    </strong>
+
+                    <span>
+                        Your local favourite
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ABOUT CONTENT -->
+
+            <div class="about-content">
+
+                <span class="section-label">
+                    ABOUT LUMO
+                </span>
+
+                <h2>
+                    A Little Place
+                    <em>With Big Flavours.</em>
+                </h2>
+
+                <p>
+                    LUMO CAFE is all about delicious food,
+                    good vibes and memorable moments.
+                </p>
+
+                <p>
+                    From crispy burgers and cheesy pizzas
+                    to refreshing ice cream, we prepare
+                    everything with care so that every bite
+                    feels special.
+                </p>
+
+
+                <!-- ABOUT FEATURES -->
+
+                <div class="about-features">
+
+                    <div class="about-feature">
+
+                        <span>
+                            ✓
+                        </span>
+
+                        <div>
+                            <strong>
+                                Fresh Ingredients
+                            </strong>
+
+                            <small>
+                                Quality ingredients in every bite
+                            </small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="about-feature">
+
+                        <span>
+                            ✓
+                        </span>
+
+                        <div>
+                            <strong>
+                                Made Fresh
+                            </strong>
+
+                            <small>
+                                Prepared when you order
+                            </small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="about-feature">
+
+                        <span>
+                            ✓
+                        </span>
+
+                        <div>
+                            <strong>
+                                Affordable Prices
+                            </strong>
+
+                            <small>
+                                Great taste without breaking the bank
+                            </small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CONTACT SECTION
+========================================================= -->
+
+<section class="contact-section" id="contact">
+
+    <div class="section-container">
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                COME VISIT US
+            </span>
+
+            <h2>
+                Let's Make It
+                <em>Delicious.</em>
+            </h2>
+
+            <p>
+                Come hungry. Leave happy.
+            </p>
+
+        </div>
+
+
+        <div class="contact-grid">
+
+            <!-- LOCATION -->
+
+            <div class="contact-card">
+
+                <div class="contact-icon">
+                    📍
+                </div>
+
+                <h3>
+                    Location
+                </h3>
+
+                <p>
+                    Tilhar, Uttar Pradesh
+                </p>
+
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="contact-card">
+
+                <div class="contact-icon">
+                    📞
+                </div>
+
+                <h3>
+                    Call Us
+                </h3>
+
+                <p>
+                    Contact LUMO CAFE
+                </p>
+
+                <a href="tel:+919876543210">
+                    Call Now →
+                </a>
+
+            </div>
+
+
+            <!-- TIMING -->
+
+            <div class="contact-card">
+
+                <div class="contact-icon">
+                    🕐
+                </div>
+
+                <h3>
+                    Opening Hours
+                </h3>
+
+                <p>
+                    Open Daily
+                </p>
+
+                <span>
+                    11:00 AM — 10:00 PM
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-brand">
+
+            <a
+                href="{{ url_for('home') }}"
+                class="logo footer-logo"
+            >
+
+                <span class="logo-mark">
+                    L
+                </span>
+
+                <span class="logo-text">
+
+                    <strong>
+                        LUMO
+                    </strong>
+
+                    <small>
+                        CAFE
+                    </small>
+
+                </span>
+
+            </a>
+
+            <p>
+                Good Food. Good Mood.
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <div>
+
+                <h4>
+                    Explore
+                </h4>
+
+                <a href="#home">
+                    Home
+                </a>
+
+                <a href="#menu">
+                    Menu
+                </a>
+
+                <a href="#offers">
+                    Offers
+                </a>
+
+            </div>
+
+
+            <div>
+
+                <h4>
+                    LUMO
+                </h4>
+
+                <a href="#about">
+                    About Us
+                </a>
+
+                <a href="#contact">
+                    Contact
+                </a>
+
+                {% if session.get("user_id") %}
+
+                    <a href="{{ url_for('logout') }}">
+                        Logout
+                    </a>
+
+                {% else %}
+
+                    <a href="{{ url_for('login') }}">
+                        Login
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <p>
+            © 2026 LUMO CAFE, Tilhar.
+            All Rights Reserved.
+        </p>
+
+        <p>
+            Made with ❤️ for food lovers.
+        </p>
+
+        <a href="{{ url_for('admin_login') }}" class="footer-admin-link">
+            Staff Login
+        </a>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =========================================================
+     CART DRAWER
+========================================================= -->
+
+<div
+    class="cart-overlay"
+    id="cartOverlay"
+    onclick="closeCart()"
+></div>
+
+
+<aside
+    class="cart-drawer"
+    id="cartDrawer"
+>
+
+    <div class="cart-header">
+
+        <div>
+
+            <span class="section-label">
+                YOUR ORDER
+            </span>
+
+            <h2>
+                Your Cart
+            </h2>
+
+        </div>
+
+        <button
+            class="cart-close"
+            onclick="closeCart()"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <!-- CART ITEMS -->
+
+    <div
+        class="cart-items"
+        id="cartItems"
+    >
+
+        <div class="empty-cart">
+
+            <span>
+                🛒
+            </span>
+
+            <h3>
+                Your cart is empty
+            </h3>
+
+            <p>
+                Add something delicious!
+            </p>
+
+            <button
+                class="primary-btn"
+                onclick="closeCart()"
+            >
+                Browse Menu
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- CART FOOTER -->
+
+    <div class="cart-footer">
+
+        <div class="cart-total-row">
+
+            <span>
+                Total
+            </span>
+
+            <strong id="cartTotal">
+                ₹0
+            </strong>
+
+        </div>
+
+        <button
+            class="checkout-btn"
+            onclick="checkout()"
+        >
+            Proceed to Checkout
+            <span>→</span>
+        </button>
+
+        <button
+            type="button"
+            class="whatsapp-cart-btn"
+            onclick="orderViaWhatsApp()"
+        >
+            💬 Quick Order on WhatsApp
+        </button>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =========================================================
+     PRODUCT MODAL
+========================================================= -->
+
+<div
+    class="modal-overlay"
+    id="productModal"
+    onclick="closeProductModal(event)"
+>
+
+    <div
+        class="product-modal"
+        onclick="event.stopPropagation()"
+    >
+
+        <button
+            class="modal-close"
+            onclick="closeProductModal()"
+        >
+            ×
+        </button>
+
+
+        <div
+            class="modal-image"
+            id="modalImage"
+        >
+            🍕
+        </div>
+
+
+        <div class="modal-content">
+
+            <span
+                class="category-badge"
+                id="modalCategory"
+            >
+                Pizza
+            </span>
+
+            <h2 id="modalName">
+                Pizza
+            </h2>
+
+            <p id="modalDescription">
+                Delicious pizza.
+            </p>
+
+
+            <!-- SIZE SELECT -->
+
+            <div
+                class="size-selector"
+                id="sizeSelector"
+            >
+
+                <label>
+                    Choose Size
+                </label>
+
+                <div
+                    class="size-options"
+                    id="sizeOptions"
+                ></div>
+
+            </div>
+
+
+            <div class="modal-bottom">
+
+                <strong id="modalPrice">
+                    ₹0
+                </strong>
+
+                <button
+                    class="primary-btn"
+                    id="modalAddBtn"
+                >
+                    Add to Cart
+                    <span>+</span>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+     CHECKOUT & PAYMENT MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="checkoutModal" onclick="closeCheckoutModal(event)">
+    <div class="checkout-modal" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeCheckoutModal()" aria-label="Close checkout">×</button>
+
+        <div class="checkout-header">
+            <span class="section-label">LUMO ORDER</span>
+            <h2>Checkout & Pay</h2>
+            <p>Select your dining preference and payment method</p>
+        </div>
+
+        <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
+            <!-- Dining Preference -->
+            <div class="checkout-section">
+                <label class="checkout-section-title">Dining Preference</label>
+                <div class="order-type-selector">
+                    <button type="button" class="order-type-btn active" data-type="Dine-in" onclick="setOrderType('Dine-in')">
+                        <span class="type-icon">🍽️</span>
+                        <strong>Dine-in</strong>
+                        <small>Table dining</small>
+                    </button>
+                    <button type="button" class="order-type-btn" data-type="Takeaway" onclick="setOrderType('Takeaway')">
+                        <span class="type-icon">🛍️</span>
+                        <strong>Takeaway</strong>
+                        <small>Self pickup</small>
+                    </button>
+                    <button type="button" class="order-type-btn" data-type="Delivery" onclick="setOrderType('Delivery')">
+                        <span class="type-icon">🛵</span>
+                        <strong>Delivery</strong>
+                        <small>Home delivery</small>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Customer Details -->
+            <div class="checkout-section">
+                <div class="form-row">
+                    <div class="checkout-input-group">
+                        <label for="custName">Your Name *</label>
+                        <input type="text" id="custName" required placeholder="Enter full name" autocomplete="name">
+                    </div>
+                    <div class="checkout-input-group">
+                        <label for="custPhone">Phone Number *</label>
+                        <input type="tel" id="custPhone" required placeholder="10-digit mobile" pattern="[0-9]{10}" maxlength="10" autocomplete="tel">
+                    </div>
+                </div>
+                <div class="checkout-input-group" id="addressFieldContainer">
+                    <label for="custAddress" id="addressFieldLabel">Table Number *</label>
+                    <input type="text" id="custAddress" required placeholder="e.g. Table 4">
+                </div>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="checkout-section">
+                <label class="checkout-section-title">Payment Method</label>
+                <div class="payment-methods">
+                    <!-- Instant UPI QR -->
+                    <label class="payment-card selected" id="payMethodCardQr">
+                        <input type="radio" name="paymentMethod" value="upi_qr" checked onchange="handlePaymentMethodChange('upi_qr')">
+                        <div class="payment-card-body">
+                            <span class="payment-card-icon">📱</span>
+                            <div class="payment-card-text">
+                                <strong>Instant UPI QR Scan</strong>
+                                <small>GPay, PhonePe, Paytm, BHIM</small>
+                            </div>
+                            <span class="payment-badge">FASTEST</span>
+                        </div>
+                    </label>
+
+                    <!-- Online Razorpay -->
+                    <label class="payment-card" id="payMethodCardRazorpay">
+                        <input type="radio" name="paymentMethod" value="razorpay" onchange="handlePaymentMethodChange('razorpay')">
+                        <div class="payment-card-body">
+                            <span class="payment-card-icon">💳</span>
+                            <div class="payment-card-text">
+                                <strong>Online Payment Gateway</strong>
+                                <small>UPI, Cards, NetBanking (Razorpay)</small>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- Pay at Counter / Cash -->
+                    <label class="payment-card" id="payMethodCardCash">
+                        <input type="radio" name="paymentMethod" value="cash" onchange="handlePaymentMethodChange('cash')">
+                        <div class="payment-card-body">
+                            <span class="payment-card-icon">💵</span>
+                            <div class="payment-card-text">
+                                <strong>Pay at Counter / Cash</strong>
+                                <small>Pay when order is served or picked up</small>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Live UPI QR Box -->
+            <div class="upi-qr-box" id="upiQrBox" style="display: none;">
+                <div class="qr-canvas-wrapper">
+                    <canvas id="upiQrCanvas" width="180" height="180"></canvas>
+                </div>
+                <div class="qr-details">
+                    <h4>Scan to Pay <span id="upiAmountDisplay">₹0</span></h4>
+                    <p>Open Google Pay, PhonePe, or Paytm and scan this QR code.</p>
+                    <div class="upi-id-badge">
+                        <span>UPI ID:</span>
+                        <strong>{{ cafe_upi_id }}</strong>
+                    </div>
+                    <small class="qr-instruction">Once payment is complete, click the button below to confirm.</small>
+                </div>
+            </div>
+
+            <!-- Order Total Breakdown -->
+            <div class="checkout-totals">
+                <div class="totals-row">
+                    <span>Items Count (<b id="checkoutItemsCount">0</b>)</span>
+                    <span id="checkoutSubtotal">₹0</span>
+                </div>
+                <div class="totals-row grand-total">
+                    <strong>Total Amount</strong>
+                    <strong id="checkoutGrandTotal">₹0</strong>
+                </div>
+            </div>
+
+            <button type="submit" class="checkout-submit-btn" id="checkoutSubmitBtn">
+                <span id="checkoutSubmitText">Generate QR & Pay</span>
+                <span class="btn-arrow">→</span>
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- =========================================================
+     ORDER CONFIRMATION / RECEIPT MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="receiptModal" onclick="closeReceiptModal(event)">
+    <div class="receipt-modal" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeReceiptModal()" aria-label="Close receipt">×</button>
+
+        <div class="receipt-success-badge">✓</div>
+        <span class="section-label">ORDER CONFIRMED</span>
+        <h2>Order Received!</h2>
+        <p>Your food is being prepared fresh in the kitchen.</p>
+
+        <div class="receipt-card" id="receiptPrintArea">
+            <div class="receipt-brand">
+                <h3>LUMO CAFE</h3>
+                <p>Tilhar, Uttar Pradesh • {{ cafe_phone }}</p>
+                <div class="receipt-divider"></div>
+            </div>
+
+            <div class="receipt-meta-grid">
+                <div>
+                    <small>ORDER ID</small>
+                    <strong id="receiptOrderId">#LUMO-XXXX</strong>
+                </div>
+                <div>
+                    <small>PAYMENT</small>
+                    <span class="receipt-status-pill" id="receiptPaymentStatus">PAID</span>
+                </div>
+            </div>
+
+            <div class="receipt-info-lines">
+                <p><strong>Customer:</strong> <span id="receiptCustName">-</span></p>
+                <p><strong>Phone:</strong> <span id="receiptCustPhone">-</span></p>
+                <p><strong>Type:</strong> <span id="receiptOrderType">Dine-in</span></p>
+                <p id="receiptAddressRow"><strong>Detail:</strong> <span id="receiptAddressDetail">-</span></p>
+            </div>
+
+            <div class="receipt-items-table" id="receiptItemsTable">
+                <!-- Dynamically populated -->
+            </div>
+
+            <div class="receipt-divider"></div>
+
+            <div class="receipt-total-line">
+                <span>Total Amount Paid</span>
+                <strong id="receiptTotalAmount">₹0</strong>
+            </div>
+
+            <div class="receipt-footer-note">
+                <p>Estimated Time: <strong>15 - 25 mins</strong></p>
+                <small>Thank you for choosing LUMO CAFE! ❤️</small>
+            </div>
+        </div>
+
+        <div class="receipt-actions">
+            <button type="button" class="whatsapp-btn" onclick="sendOrderToWhatsApp()">
+                💬 Send Order to Cafe WhatsApp
+            </button>
+            <div class="receipt-secondary-actions">
+                <button type="button" class="secondary-btn" onclick="printReceipt()">
+                    🖨️ Print Receipt
+                </button>
+                <button type="button" class="primary-btn" onclick="closeReceiptModal()">
+                    Done
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- =========================================================
+     WHATSAPP QUICK ORDER MODAL
+========================================================= -->
+
+<div class="modal-overlay" id="whatsappModal" onclick="closeWhatsAppModal(event)">
+    <div class="checkout-modal whatsapp-order-modal" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeWhatsAppModal()" aria-label="Close WhatsApp order">×</button>
+
+        <div class="checkout-header">
+            <span class="section-label">WHATSAPP ORDER</span>
+            <h2>Order via WhatsApp</h2>
+            <p>Your order will be saved and sent to LUMO CAFE on WhatsApp</p>
+        </div>
+
+        <form id="whatsappOrderForm" onsubmit="submitWhatsAppOrder(event)">
+            <div class="checkout-section">
+                <label class="checkout-section-title">Dining Preference</label>
+                <div class="order-type-selector">
+                    <button type="button" class="order-type-btn active" data-type="Takeaway" onclick="setWhatsAppOrderType('Takeaway')">
+                        <span class="type-icon">🛍️</span>
+                        <strong>Takeaway</strong>
+                        <small>Self pickup</small>
+                    </button>
+                    <button type="button" class="order-type-btn" data-type="Dine-in" onclick="setWhatsAppOrderType('Dine-in')">
+                        <span class="type-icon">🍽️</span>
+                        <strong>Dine-in</strong>
+                        <small>Table dining</small>
+                    </button>
+                    <button type="button" class="order-type-btn" data-type="Delivery" onclick="setWhatsAppOrderType('Delivery')">
+                        <span class="type-icon">🛵</span>
+                        <strong>Delivery</strong>
+                        <small>Home delivery</small>
+                    </button>
+                </div>
+            </div>
+
+            <div class="checkout-section">
+                <div class="form-row">
+                    <div class="checkout-input-group">
+                        <label for="waCustName">Your Name *</label>
+                        <input type="text" id="waCustName" required placeholder="Enter full name" autocomplete="name">
+                    </div>
+                    <div class="checkout-input-group">
+                        <label for="waCustPhone">Phone Number *</label>
+                        <input type="tel" id="waCustPhone" required placeholder="10-digit mobile" pattern="[0-9]{10}" maxlength="10" autocomplete="tel">
+                    </div>
+                </div>
+                <div class="checkout-input-group" id="waAddressFieldContainer">
+                    <label for="waCustAddress" id="waAddressFieldLabel">Pickup Note</label>
+                    <input type="text" id="waCustAddress" placeholder="Any special instructions (optional)">
+                </div>
+            </div>
+
+            <div class="checkout-totals">
+                <div class="totals-row">
+                    <span>Items (<b id="waItemsCount">0</b>)</span>
+                    <span id="waSubtotal">₹0</span>
+                </div>
+                <div class="totals-row grand-total">
+                    <strong>Total Amount</strong>
+                    <strong id="waGrandTotal">₹0</strong>
+                </div>
+            </div>
+
+            <button type="submit" class="whatsapp-submit-btn" id="waSubmitBtn">
+                💬 Save Order & Open WhatsApp
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- =========================================================
+     BACK TO TOP
+========================================================= -->
+
+<button
+    class="back-to-top"
+    id="backToTop"
+    onclick="scrollToTop()"
+    aria-label="Back to top"
+>
+    ↑
+</button>
+
+<!-- Floating WhatsApp Button -->
+<a
+    href="#"
+    class="floating-whatsapp"
+    id="floatingWhatsApp"
+    onclick="openWhatsAppQuickContact(event)"
+    aria-label="Contact on WhatsApp"
+    title="Chat with LUMO CAFE on WhatsApp"
+>
+    💬
+</a>
+
+<!-- =========================================================
+     MENU & SERVER DATA FOR JAVASCRIPT
+========================================================= -->
+
+<script>
+    const menuItems = {{ menu_items | tojson }};
+    const RAZORPAY_KEY_ID = "{{ razorpay_key_id }}";
+    const CAFE_UPI_ID = "{{ cafe_upi_id }}";
+    const CAFE_PHONE = "{{ cafe_phone }}";
+    const CAFE_WHATSAPP = "{{ cafe_whatsapp }}";
+    const LOGGED_IN_USER = {{ session.get('user_name') | tojson if session.get('user_name') else 'null' }};
+</script>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* ========================================================
+       MOBILE MENU
+    ======================================================== */
+
+    const mobileMenuBtn =
+        document.getElementById("mobileMenuBtn");
+
+    const mobileNav =
+        document.getElementById("mobileNav");
+
+
+    if (mobileMenuBtn && mobileNav) {
+
+        mobileMenuBtn.addEventListener("click", function () {
+
+            mobileNav.classList.toggle("active");
+
+            if (mobileNav.classList.contains("active")) {
+                mobileMenuBtn.textContent = "×";
+            } else {
+                mobileMenuBtn.textContent = "☰";
+            }
+
+        });
+
+
+        mobileNav.querySelectorAll("a").forEach(function (link) {
+
+            link.addEventListener("click", function () {
+
+                mobileNav.classList.remove("active");
+
+                mobileMenuBtn.textContent = "☰";
+
+            });
+
+        });
+
+    }
+
+
+
+    /* ========================================================
+       MENU FILTER
+    ======================================================== */
+
+    const filterButtons =
+        document.querySelectorAll(".filter-btn");
+
+    const menuCards =
+        document.querySelectorAll(".menu-card");
+
+    const emptyMenu =
+        document.getElementById("emptyMenu");
+
+
+    filterButtons.forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            const category =
+                button.getAttribute("data-category");
+
+
+            filterButtons.forEach(function (btn) {
+                btn.classList.remove("active");
+            });
+
+            button.classList.add("active");
+
+
+            let visibleCount = 0;
+
+
+            menuCards.forEach(function (card) {
+
+                const cardCategory =
+                    card.getAttribute("data-category");
+
+
+                if (
+                    category === "All" ||
+                    cardCategory === category
+                ) {
+
+                    card.style.display = "";
+
+                    visibleCount++;
+
+                } else {
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+
+            if (emptyMenu) {
+
+                emptyMenu.style.display =
+                    visibleCount === 0
+                        ? "block"
+                        : "none";
+
+            }
+
+        });
+
+    });
+
+
+
+    /* ========================================================
+       NAVBAR SCROLL
+    ======================================================== */
+
+    const navbar =
+        document.getElementById("navbar");
+
+
+    window.addEventListener("scroll", function () {
+
+        if (!navbar) return;
+
+
+        if (window.scrollY > 50) {
+
+            navbar.classList.add("scrolled");
+
+        } else {
+
+            navbar.classList.remove("scrolled");
+
+        }
+
+    });
+
+
+
+    /* ========================================================
+       BACK TO TOP
+    ======================================================== */
+
+    const backToTop =
+        document.getElementById("backToTop");
+
+
+    window.addEventListener("scroll", function () {
+
+        if (!backToTop) return;
+
+
+        if (window.scrollY > 500) {
+
+            backToTop.classList.add("show");
+
+        } else {
+
+            backToTop.classList.remove("show");
+
+        }
+
+    });
+
+
+
+    /* ========================================================
+       UPDATE CART
+    ======================================================== */
+
+    updateCart();
+
+});
+
+
+
+/* ============================================================
+   CART
+============================================================ */
+
+let cart = JSON.parse(
+    localStorage.getItem("lumoCart")
+) || [];
+
+
+
+function saveCart() {
+
+    localStorage.setItem(
+        "lumoCart",
+        JSON.stringify(cart)
+    );
+
+}
+
+
+
+function addToCart(itemId, selectedSize = null) {
+
+    const item = menuItems.find(
+        product => product.id === itemId
+    );
+
+
+    if (!item) return;
+
+
+    let price = item.price;
+
+    if (price === null || price === undefined) {
+        showNotification(item.name + " is available at MRP");
+        return;
+    }
+
+    let size = null;
+
+
+    if (item.sizes) {
+
+        size =
+            selectedSize ||
+            Object.keys(item.sizes)[0];
+
+        price = item.sizes[size];
+
+    }
+
+
+    const existingItem = cart.find(
+        cartItem =>
+            cartItem.id === itemId &&
+            cartItem.size === size
+    );
+
+
+    if (existingItem) {
+
+        existingItem.quantity += 1;
+
+    } else {
+
+        cart.push({
+
+            id: item.id,
+
+            name: item.name,
+
+            price: price,
+
+            size: size,
+
+            emoji: item.emoji,
+
+            quantity: 1
+
+        });
+
+    }
+
+
+    saveCart();
+
+    updateCart();
+
+    showNotification(
+        item.name + " added to cart"
+    );
+
+}
+
+
+
+function removeFromCart(index) {
+
+    if (
+        index < 0 ||
+        index >= cart.length
+    ) return;
+
+
+    cart.splice(index, 1);
+
+    saveCart();
+
+    updateCart();
+
+}
+
+
+
+function changeQuantity(index, amount) {
+
+    if (!cart[index]) return;
+
+
+    cart[index].quantity += amount;
+
+
+    if (cart[index].quantity <= 0) {
+
+        cart.splice(index, 1);
+
+    }
+
+
+    saveCart();
+
+    updateCart();
+
+}
+
+
+
+function updateCart() {
+
+    const cartCount =
+        document.getElementById("cartCount");
+
+    const cartItems =
+        document.getElementById("cartItems");
+
+    const cartTotal =
+        document.getElementById("cartTotal");
+
+
+    let totalItems = 0;
+
+    let totalPrice = 0;
+
+
+    cart.forEach(function (item) {
+
+        totalItems += item.quantity;
+
+        totalPrice +=
+            item.price * item.quantity;
+
+    });
+
+
+    if (cartCount) {
+
+        cartCount.textContent =
+            totalItems;
+
+    }
+
+
+    if (cartTotal) {
+
+        cartTotal.textContent =
+            "₹" + totalPrice;
+
+    }
+
+
+    if (!cartItems) return;
+
+
+    if (cart.length === 0) {
+
+        cartItems.innerHTML = `
+
+            <div class="empty-cart">
+
+                <span>🛒</span>
+
+                <h3>
+                    Your cart is empty
+                </h3>
+
+                <p>
+                    Add something delicious!
+                </p>
+
+                <button
+                    class="primary-btn"
+                    onclick="closeCart()"
+                >
+                    Browse Menu
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    cartItems.innerHTML = cart.map(
+        function (item, index) {
+
+            return `
+
+                <div class="cart-item">
+
+                    <div class="cart-item-image">
+                        ${item.emoji}
+                    </div>
+
+                    <div class="cart-item-info">
+
+                        <h4>
+                            ${item.name}
+                        </h4>
+
+                        ${
+                            item.size
+                                ? `<small>${item.size}</small>`
+                                : ""
+                        }
+
+                        <strong>
+                            ₹${item.price}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="cart-item-actions">
+
+                        <button
+                            onclick="changeQuantity(${index}, -1)"
+                        >
+                            −
+                        </button>
+
+                        <span>
+                            ${item.quantity}
+                        </span>
+
+                        <button
+                            onclick="changeQuantity(${index}, 1)"
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+
+                    <button
+                        class="cart-remove"
+                        onclick="removeFromCart(${index})"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+            `;
+
+        }
+    ).join("");
+
+}
+
+
+
+function openCart() {
+
+    const drawer =
+        document.getElementById("cartDrawer");
+
+    const overlay =
+        document.getElementById("cartOverlay");
+
+
+    if (drawer) {
+        drawer.classList.add("active");
+    }
+
+
+    if (overlay) {
+        overlay.classList.add("active");
+    }
+
+
+    document.body.classList.add("cart-open");
+
+}
+
+
+
+function closeCart() {
+
+    const drawer =
+        document.getElementById("cartDrawer");
+
+    const overlay =
+        document.getElementById("cartOverlay");
+
+
+    if (drawer) {
+        drawer.classList.remove("active");
+    }
+
+
+    if (overlay) {
+        overlay.classList.remove("active");
+    }
+
+
+    document.body.classList.remove("cart-open");
+
+}
+
+
+
+/* ============================================================
+   PRODUCT MODAL
+============================================================ */
+
+let selectedProduct = null;
+
+let selectedProductSize = null;
+
+
+
+function openProductModal(itemId) {
+
+    const item = menuItems.find(
+        product => product.id === itemId
+    );
+
+
+    if (!item) return;
+
+
+    selectedProduct = item;
+
+
+    const modal =
+        document.getElementById("productModal");
+
+    const modalName =
+        document.getElementById("modalName");
+
+    const modalDescription =
+        document.getElementById("modalDescription");
+
+    const modalImage =
+        document.getElementById("modalImage");
+
+    const modalCategory =
+        document.getElementById("modalCategory");
+
+    const modalPrice =
+        document.getElementById("modalPrice");
+
+    const sizeSelector =
+        document.getElementById("sizeSelector");
+
+    const sizeOptions =
+        document.getElementById("sizeOptions");
+
+    const modalAddBtn =
+        document.getElementById("modalAddBtn");
+
+
+    if (modalName) {
+        modalName.textContent = item.name;
+    }
+
+
+    if (modalDescription) {
+        modalDescription.textContent =
+            item.description;
+    }
+
+
+    if (modalImage) {
+        modalImage.textContent =
+            item.emoji;
+    }
+
+
+    if (modalCategory) {
+        modalCategory.textContent =
+            item.category;
+    }
+
+
+    selectedProductSize = null;
+
+
+    if (item.sizes) {
+
+        if (sizeSelector) {
+            sizeSelector.style.display = "block";
+        }
+
+
+        if (sizeOptions) {
+
+            sizeOptions.innerHTML = "";
+
+
+            Object.entries(item.sizes).forEach(
+                function ([size, price], index) {
+
+                    const button =
+                        document.createElement("button");
+
+
+                    button.type = "button";
+
+                    button.className =
+                        "size-option";
+
+
+                    if (index === 0) {
+
+                        button.classList.add("active");
+
+                        selectedProductSize = size;
+
+                        if (modalPrice) {
+                            modalPrice.textContent =
+                                "₹" + price;
+                        }
+
+                    }
+
+
+                    button.innerHTML = `
+                        <span>${size}</span>
+                        <strong>₹${price}</strong>
+                    `;
+
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            sizeOptions
+                                .querySelectorAll(".size-option")
+                                .forEach(
+                                    btn =>
+                                        btn.classList.remove("active")
+                                );
+
+
+                            button.classList.add("active");
+
+
+                            selectedProductSize =
+                                size;
+
+
+                            if (modalPrice) {
+
+                                modalPrice.textContent =
+                                    "₹" + price;
+
+                            }
+
+                        }
+                    );
+
+
+                    sizeOptions.appendChild(button);
+
+                }
+            );
+
+        }
+
+    } else {
+
+        if (sizeSelector) {
+            sizeSelector.style.display = "none";
+        }
+
+
+        if (modalPrice) {
+
+            modalPrice.textContent = item.price_label
+                ? item.price_label
+                : "₹" + item.price;
+
+        }
+
+    }
+
+
+    if (modalAddBtn) {
+
+        modalAddBtn.onclick = function () {
+
+            addToCart(
+                item.id,
+                selectedProductSize
+            );
+
+            closeProductModal();
+
+        };
+
+    }
+
+
+    if (modal) {
+
+        modal.classList.add("active");
+
+        document.body.classList.add("modal-open");
+
+    }
+
+}
+
+
+
+function closeProductModal(event) {
+
+    if (
+        event &&
+        event.target &&
+        event.target.id !== "productModal"
+    ) {
+        return;
+    }
+
+
+    const modal =
+        document.getElementById("productModal");
+
+
+    if (modal) {
+
+        modal.classList.remove("active");
+
+    }
+
+
+    document.body.classList.remove(
+        "modal-open"
+    );
+
+}
+
+
+
+/* ============================================================
+   CHECKOUT & PAYMENT GATEWAY FLOW
+============================================================ */
+
+let currentOrderType = "Dine-in";
+let currentPaymentMethod = "upi_qr";
+let currentWhatsAppOrderType = "Takeaway";
+let activeOrderData = null;
+let upiQrGenerated = false;
+
+function checkout() {
+    openCheckoutModal();
+}
+
+function openCheckoutModal() {
+    if (cart.length === 0) {
+        showNotification("Your cart is empty! Add items first.");
+        return;
+    }
+
+    closeCart();
+
+    const checkoutModal = document.getElementById("checkoutModal");
+    const custNameInput = document.getElementById("custName");
+    const custPhoneInput = document.getElementById("custPhone");
+    const itemsCount = document.getElementById("checkoutItemsCount");
+    const subtotalDisplay = document.getElementById("checkoutSubtotal");
+    const grandTotalDisplay = document.getElementById("checkoutGrandTotal");
+
+    // Pre-fill customer name if logged in
+    if (LOGGED_IN_USER && custNameInput && !custNameInput.value) {
+        custNameInput.value = LOGGED_IN_USER;
+    }
+
+    // Compute Totals
+    let totalItems = 0;
+    let totalPrice = 0;
+    cart.forEach(item => {
+        totalItems += item.quantity;
+        totalPrice += item.price * item.quantity;
+    });
+
+    if (itemsCount) itemsCount.textContent = totalItems;
+    if (subtotalDisplay) subtotalDisplay.textContent = "₹" + totalPrice;
+    if (grandTotalDisplay) grandTotalDisplay.textContent = "₹" + totalPrice;
+
+    // Reset QR Box
+    const upiQrBox = document.getElementById("upiQrBox");
+    if (upiQrBox) upiQrBox.style.display = "none";
+    upiQrGenerated = false;
+    activeOrderData = null;
+
+    setOrderType("Dine-in");
+    handlePaymentMethodChange("upi_qr");
+
+    if (checkoutModal) {
+        checkoutModal.classList.add("active");
+        document.body.classList.add("modal-open");
+    }
+}
+
+function closeCheckoutModal(event) {
+    if (event && event.target && event.target.id !== "checkoutModal") return;
+    const checkoutModal = document.getElementById("checkoutModal");
+    if (checkoutModal) {
+        checkoutModal.classList.remove("active");
+    }
+    document.body.classList.remove("modal-open");
+}
+
+function setOrderType(type) {
+    currentOrderType = type;
+
+    // Update buttons active class
+    document.querySelectorAll(".order-type-btn").forEach(btn => {
+        if (btn.getAttribute("data-type") === type) {
+            btn.classList.add("active");
+        } else {
+            btn.classList.remove("active");
+        }
+    });
+
+    const label = document.getElementById("addressFieldLabel");
+    const input = document.getElementById("custAddress");
+    const container = document.getElementById("addressFieldContainer");
+
+    if (!label || !input || !container) return;
+
+    if (type === "Dine-in") {
+        container.style.display = "block";
+        label.textContent = "Table Number *";
+        input.placeholder = "e.g. Table 4";
+        input.required = true;
+    } else if (type === "Takeaway") {
+        container.style.display = "none";
+        input.required = false;
+        input.value = "Self Pickup";
+    } else if (type === "Delivery") {
+        container.style.display = "block";
+        label.textContent = "Delivery Address *";
+        input.placeholder = "Full delivery address in Tilhar";
+        input.required = true;
+        if (input.value === "Self Pickup") input.value = "";
+    }
+}
+
+function handlePaymentMethodChange(method) {
+    currentPaymentMethod = method;
+
+    // Update selected card styling
+    document.querySelectorAll(".payment-card").forEach(card => card.classList.remove("selected"));
+
+    const cardMap = {
+        "upi_qr": "payMethodCardQr",
+        "razorpay": "payMethodCardRazorpay",
+        "cash": "payMethodCardCash"
+    };
+
+    const selectedCard = document.getElementById(cardMap[method]);
+    if (selectedCard) selectedCard.classList.add("selected");
+
+    const submitBtn = document.getElementById("checkoutSubmitBtn");
+    const submitText = document.getElementById("checkoutSubmitText");
+    const upiQrBox = document.getElementById("upiQrBox");
+
+    // Hide QR box if switched away
+    if (method !== "upi_qr" && upiQrBox) {
+        upiQrBox.style.display = "none";
+        upiQrGenerated = false;
+    }
+
+    // Update button text
+    if (submitText) {
+        if (method === "upi_qr") {
+            submitText.textContent = upiQrGenerated ? "I Have Paid — Confirm Order" : "Generate UPI QR & Pay";
+        } else if (method === "razorpay") {
+            submitText.textContent = "Proceed to Online Gateway";
+        } else if (method === "cash") {
+            submitText.textContent = currentOrderType === "Delivery" ? "Confirm Cash on Delivery" : "Confirm & Pay at Counter";
+        }
+    }
+}
+
+async function handleCheckoutSubmit(event) {
+    event.preventDefault();
+
+    if (cart.length === 0) {
+        showNotification("Your cart is empty!");
+        return;
+    }
+
+    const custName = document.getElementById("custName").value.trim();
+    const custPhone = document.getElementById("custPhone").value.trim();
+    const custAddress = document.getElementById("custAddress") ? document.getElementById("custAddress").value.trim() : "";
+
+    if (!custName || !custPhone) {
+        showNotification("Please fill your name and phone number.");
+        return;
+    }
+
+    if (custPhone.length !== 10 || isNaN(custPhone)) {
+        showNotification("Please enter a valid 10-digit mobile number.");
+        return;
+    }
+
+    const submitBtn = document.getElementById("checkoutSubmitBtn");
+    const submitText = document.getElementById("checkoutSubmitText");
+
+    // If UPI QR is already generated and user clicked "I Have Paid"
+    if (currentPaymentMethod === "upi_qr" && upiQrGenerated && activeOrderData) {
+        submitBtn.disabled = true;
+        submitText.textContent = "Verifying Payment...";
+
+        await verifyPayment(
+            activeOrderData.order_id,
+            "UPI-SCAN-" + Date.now().toString(16).toUpperCase(),
+            "upi_qr",
+            { name: custName, phone: custPhone, type: currentOrderType, detail: custAddress }
+        );
+        submitBtn.disabled = false;
+        return;
+    }
+
+    // Disable button while creating order
+    submitBtn.disabled = true;
+    submitText.textContent = "Processing Order...";
+
+    try {
+        const orderPayload = {
+            customer_name: custName,
+            customer_phone: custPhone,
+            order_type: currentOrderType,
+            address_or_table: custAddress,
+            payment_method: currentPaymentMethod,
+            items: cart
+        };
+
+        const response = await fetch("/api/create-order", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(orderPayload)
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+            showNotification(data.error || "Failed to create order.");
+            submitBtn.disabled = false;
+            handlePaymentMethodChange(currentPaymentMethod);
+            return;
+        }
+
+        activeOrderData = data;
+
+        const customerInfo = {
+            name: custName,
+            phone: custPhone,
+            type: currentOrderType,
+            detail: custAddress
+        };
+
+        // Handle Payment based on selected method
+        if (currentPaymentMethod === "upi_qr") {
+            displayUpiQr(data);
+            submitBtn.disabled = false;
+            submitText.textContent = "I Have Paid — Confirm Order";
+            upiQrGenerated = true;
+        } else if (currentPaymentMethod === "razorpay") {
+            triggerRazorpayPayment(data, customerInfo);
+            submitBtn.disabled = false;
+            handlePaymentMethodChange("razorpay");
+        } else if (currentPaymentMethod === "cash") {
+            // Cash on Delivery / Pay at Counter
+            submitBtn.disabled = false;
+            closeCheckoutModal();
+            showReceiptModal(data, customerInfo, [...cart], "PAY AT COUNTER");
+            cart = [];
+            saveCart();
+            updateCart();
+            showNotification("Order placed successfully! Pay at counter.");
+        }
+
+    } catch (err) {
+        console.error("Order creation error:", err);
+        showNotification("Network error. Please try again.");
+        submitBtn.disabled = false;
+        handlePaymentMethodChange(currentPaymentMethod);
+    }
+}
+
+function displayUpiQr(orderData) {
+    const upiQrBox = document.getElementById("upiQrBox");
+    const upiAmountDisplay = document.getElementById("upiAmountDisplay");
+    const canvas = document.getElementById("upiQrCanvas");
+
+    if (upiAmountDisplay) {
+        upiAmountDisplay.textContent = "₹" + orderData.total_amount;
+    }
+
+    if (canvas && typeof QRious !== "undefined") {
+        new QRious({
+            element: canvas,
+            value: orderData.upi_uri,
+            size: 180,
+            level: "M",
+            foreground: "#3b2419"
+        });
+    }
+
+    if (upiQrBox) {
+        upiQrBox.style.display = "flex";
+        upiQrBox.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+}
+
+function triggerRazorpayPayment(orderData, customerInfo) {
+    if (typeof Razorpay === "undefined") {
+        showNotification("Razorpay gateway is initializing. Using Instant UPI instead.");
+        handlePaymentMethodChange("upi_qr");
+        displayUpiQr(orderData);
+        return;
+    }
+
+    const options = {
+        key: orderData.razorpay_key_id || RAZORPAY_KEY_ID,
+        amount: Math.round(orderData.total_amount * 100),
+        currency: "INR",
+        name: "LUMO CAFE",
+        description: "Order #" + orderData.order_id,
+        order_id: orderData.razorpay_order_id || "",
+        prefill: {
+            name: customerInfo.name,
+            contact: customerInfo.phone
+        },
+        theme: {
+            color: "#c87935"
+        },
+        handler: function (response) {
+            verifyPayment(
+                orderData.order_id,
+                response.razorpay_payment_id,
+                "razorpay",
+                customerInfo,
+                response.razorpay_order_id || orderData.razorpay_order_id,
+                response.razorpay_signature
+            );
+        },
+        modal: {
+            ondismiss: function () {
+                showNotification("Payment window was closed.");
+            }
+        }
+    };
+
+    try {
+        const rzp = new Razorpay(options);
+        rzp.on("payment.failed", function (response) {
+            showNotification("Payment failed: " + (response.error.description || "Please try another method."));
+        });
+        rzp.open();
+    } catch (e) {
+        console.warn("Razorpay instance note:", e);
+        const confirmDemo = confirm(
+            "Razorpay Demo Gateway: Would you like to simulate a successful payment for ₹" +
+            orderData.total_amount + "?"
+        );
+        if (confirmDemo) {
+            verifyPayment(
+                orderData.order_id,
+                "DEMO-" + Date.now().toString(16).toUpperCase(),
+                "razorpay",
+                customerInfo,
+                orderData.razorpay_order_id,
+                "demo_signature"
+            );
+        }
+    }
+}
+
+async function verifyPayment(orderId, paymentId, method, customerInfo, razorpayOrderId, razorpaySignature) {
+    try {
+        const response = await fetch("/api/verify-payment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                order_id: orderId,
+                payment_id: paymentId,
+                payment_method: method,
+                razorpay_order_id: razorpayOrderId,
+                razorpay_signature: razorpaySignature
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            closeCheckoutModal();
+            showReceiptModal({ order_id: orderId, total_amount: activeOrderData ? activeOrderData.total_amount : 0 }, customerInfo, [...cart], "PAID ONLINE");
+            cart = [];
+            saveCart();
+            updateCart();
+            showNotification("Payment verified! Your food is preparing.");
+        } else {
+            showNotification("Verification pending: " + (result.error || "Please check with cafe staff."));
+        }
+    } catch (err) {
+        console.error("Verification error:", err);
+        // Still confirm order if network glitch
+        closeCheckoutModal();
+        showReceiptModal({ order_id: orderId, total_amount: activeOrderData ? activeOrderData.total_amount : 0 }, customerInfo, [...cart], "PAID (VERIFYING)");
+        cart = [];
+        saveCart();
+        updateCart();
+    }
+}
+
+function showReceiptModal(orderData, customerInfo, items, paymentStatusText) {
+    const receiptModal = document.getElementById("receiptModal");
+    const receiptOrderId = document.getElementById("receiptOrderId");
+    const receiptStatus = document.getElementById("receiptPaymentStatus");
+    const receiptCustName = document.getElementById("receiptCustName");
+    const receiptCustPhone = document.getElementById("receiptCustPhone");
+    const receiptOrderType = document.getElementById("receiptOrderType");
+    const receiptAddressDetail = document.getElementById("receiptAddressDetail");
+    const receiptAddressRow = document.getElementById("receiptAddressRow");
+    const receiptTotalAmount = document.getElementById("receiptTotalAmount");
+    const receiptItemsTable = document.getElementById("receiptItemsTable");
+
+    if (receiptOrderId) receiptOrderId.textContent = "#" + orderData.order_id;
+    if (receiptStatus) receiptStatus.textContent = paymentStatusText || "PAID";
+    if (receiptCustName) receiptCustName.textContent = customerInfo.name;
+    if (receiptCustPhone) receiptCustPhone.textContent = customerInfo.phone;
+    if (receiptOrderType) receiptOrderType.textContent = customerInfo.type;
+
+    if (receiptAddressRow && receiptAddressDetail) {
+        if (customerInfo.detail && customerInfo.type !== "Takeaway") {
+            receiptAddressRow.style.display = "block";
+            receiptAddressDetail.textContent = customerInfo.detail;
+        } else {
+            receiptAddressRow.style.display = "none";
+        }
+    }
+
+    if (receiptTotalAmount) {
+        receiptTotalAmount.textContent = "₹" + orderData.total_amount;
+    }
+
+    if (receiptItemsTable) {
+        receiptItemsTable.innerHTML = items.map(item => `
+            <div class="receipt-item-row">
+                <div>
+                    <strong>${item.name}</strong>
+                    ${item.size ? `<small>(${item.size})</small>` : ""}
+                    <span>x ${item.quantity}</span>
+                </div>
+                <b>₹${item.price * item.quantity}</b>
+            </div>
+        `).join("");
+    }
+
+    if (receiptModal) {
+        receiptModal.classList.add("active");
+        document.body.classList.add("modal-open");
+    }
+
+    // Save for WhatsApp sharing
+    lastConfirmedReceiptData = {
+        orderData: orderData,
+        customerInfo: customerInfo,
+        items: items,
+        paymentStatusText: paymentStatusText,
+        whatsappUrl: activeOrderData ? activeOrderData.whatsapp_url : null
+    };
+}
+
+let lastConfirmedReceiptData = null;
+
+function openWhatsAppQuickContact(event) {
+    if (event) event.preventDefault();
+
+    const message =
+        "Hi LUMO CAFE! 👋\n" +
+        "I would like to place an order / ask about the menu.\n" +
+        "Thank you!";
+
+    const cleanNumber = (CAFE_WHATSAPP || "919876543210").replace(/[^0-9]/g, "");
+    window.open("https://wa.me/" + cleanNumber + "?text=" + encodeURIComponent(message), "_blank");
+}
+
+function openWhatsAppOrderModal() {
+    if (cart.length === 0) {
+        showNotification("Your cart is empty! Add items first.");
+        return;
+    }
+
+    closeCart();
+
+    const waModal = document.getElementById("whatsappModal");
+    const waName = document.getElementById("waCustName");
+    const waPhone = document.getElementById("waCustPhone");
+    const waItemsCount = document.getElementById("waItemsCount");
+    const waSubtotal = document.getElementById("waSubtotal");
+    const waGrandTotal = document.getElementById("waGrandTotal");
+
+    if (LOGGED_IN_USER && waName && !waName.value) {
+        waName.value = LOGGED_IN_USER;
+    }
+
+    let totalItems = 0;
+    let totalPrice = 0;
+    cart.forEach(item => {
+        totalItems += item.quantity;
+        totalPrice += item.price * item.quantity;
+    });
+
+    if (waItemsCount) waItemsCount.textContent = totalItems;
+    if (waSubtotal) waSubtotal.textContent = "₹" + totalPrice;
+    if (waGrandTotal) waGrandTotal.textContent = "₹" + totalPrice;
+
+    setWhatsAppOrderType("Takeaway");
+
+    if (waModal) {
+        waModal.classList.add("active");
+        document.body.classList.add("modal-open");
+    }
+}
+
+function closeWhatsAppModal(event) {
+    if (event && event.target && event.target.id !== "whatsappModal") return;
+    const waModal = document.getElementById("whatsappModal");
+    if (waModal) waModal.classList.remove("active");
+    document.body.classList.remove("modal-open");
+}
+
+function setWhatsAppOrderType(type) {
+    currentWhatsAppOrderType = type;
+
+    const modal = document.getElementById("whatsappModal");
+    if (!modal) return;
+
+    modal.querySelectorAll(".order-type-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("data-type") === type);
+    });
+
+    const label = document.getElementById("waAddressFieldLabel");
+    const input = document.getElementById("waCustAddress");
+    const container = document.getElementById("waAddressFieldContainer");
+
+    if (!label || !input || !container) return;
+
+    if (type === "Dine-in") {
+        container.style.display = "block";
+        label.textContent = "Table Number";
+        input.placeholder = "e.g. Table 4";
+    } else if (type === "Delivery") {
+        container.style.display = "block";
+        label.textContent = "Delivery Address";
+        input.placeholder = "Full delivery address in Tilhar";
+    } else {
+        container.style.display = "block";
+        label.textContent = "Pickup Note";
+        input.placeholder = "Any special instructions (optional)";
+    }
+}
+
+async function submitWhatsAppOrder(event) {
+    event.preventDefault();
+
+    if (cart.length === 0) {
+        showNotification("Your cart is empty!");
+        return;
+    }
+
+    const custName = document.getElementById("waCustName").value.trim();
+    const custPhone = document.getElementById("waCustPhone").value.trim();
+    const custAddress = document.getElementById("waCustAddress").value.trim() || "WhatsApp Order";
+    const submitBtn = document.getElementById("waSubmitBtn");
+
+    if (!custName || !custPhone) {
+        showNotification("Please fill your name and phone number.");
+        return;
+    }
+
+    if (custPhone.length !== 10 || isNaN(custPhone)) {
+        showNotification("Please enter a valid 10-digit mobile number.");
+        return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Saving Order...";
+
+    try {
+        const response = await fetch("/api/whatsapp-order", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                customer_name: custName,
+                customer_phone: custPhone,
+                order_type: currentWhatsAppOrderType,
+                address_or_table: custAddress,
+                items: cart
+            })
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+            showNotification(data.error || "Failed to save WhatsApp order.");
+            submitBtn.disabled = false;
+            submitBtn.textContent = "💬 Save Order & Open WhatsApp";
+            return;
+        }
+
+        closeWhatsAppModal();
+        cart = [];
+        saveCart();
+        updateCart();
+        showNotification("Order #" + data.order_id + " saved! Opening WhatsApp...");
+
+        if (data.whatsapp_url) {
+            window.open(data.whatsapp_url, "_blank");
+        }
+
+    } catch (err) {
+        console.error("WhatsApp order error:", err);
+        showNotification("Network error. Please try again.");
+    }
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = "💬 Save Order & Open WhatsApp";
+}
+
+function orderViaWhatsApp() {
+    openWhatsAppOrderModal();
+}
+
+function sendOrderToWhatsApp() {
+    if (!lastConfirmedReceiptData) {
+        showNotification("No recent order found.");
+        return;
+    }
+
+    if (lastConfirmedReceiptData.whatsappUrl) {
+        window.open(lastConfirmedReceiptData.whatsappUrl, "_blank");
+        return;
+    }
+
+    const { orderData, customerInfo, items, paymentStatusText } = lastConfirmedReceiptData;
+
+    let itemsText = "";
+    items.forEach(item => {
+        const sizeInfo = item.size ? ` (${item.size})` : "";
+        itemsText += `• ${item.quantity}x ${item.name}${sizeInfo} - ₹${item.price * item.quantity}\n`;
+    });
+
+    const detailText = customerInfo.detail && customerInfo.type !== "Takeaway" 
+        ? `*Location / Table:* ${customerInfo.detail}\n` 
+        : "";
+
+    const message = 
+        `🍔 *CONFIRMED ORDER - LUMO CAFE* 🍔\n` +
+        `------------------------------------\n` +
+        `*Order ID:* #${orderData.order_id}\n` +
+        `*Customer:* ${customerInfo.name} (${customerInfo.phone})\n` +
+        `*Order Type:* ${customerInfo.type}\n` +
+        detailText +
+        `*Payment:* ${paymentStatusText} (₹${orderData.total_amount})\n` +
+        `------------------------------------\n` +
+        `*Items:*\n${itemsText}` +
+        `------------------------------------\n` +
+        `*Grand Total:* ₹${orderData.total_amount}\n\n` +
+        `Please prepare our order. Thank you! ❤️`;
+
+    const cleanNumber = (CAFE_WHATSAPP || "919876543210").replace(/[^0-9]/g, "");
+    const waUrl = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(message)}`;
+    window.open(waUrl, "_blank");
+}
+
+function closeReceiptModal(event) {
+    if (event && event.target && event.target.id !== "receiptModal") return;
+    const receiptModal = document.getElementById("receiptModal");
+    if (receiptModal) {
+        receiptModal.classList.remove("active");
+    }
+    document.body.classList.remove("modal-open");
+}
+
+function printReceipt() {
+    window.print();
+}
+
+
+
+/* ============================================================
+   NOTIFICATION
+============================================================ */
+
+function showNotification(message) {
+
+    const oldNotification =
+        document.querySelector(".lumo-notification");
+
+
+    if (oldNotification) {
+        oldNotification.remove();
+    }
+
+
+    const notification =
+        document.createElement("div");
+
+
+    notification.className =
+        "lumo-notification";
+
+
+    notification.textContent =
+        "✓ " + message;
+
+
+    document.body.appendChild(
+        notification
+    );
+
+
+    setTimeout(
+        function () {
+
+            notification.classList.add(
+                "hide"
+            );
+
+
+            setTimeout(
+                function () {
+
+                    notification.remove();
+
+                },
+                300
+            );
+
+        },
+        2000
+    );
+
+}
+
+
+
+/* ============================================================
+   SCROLL TO TOP
+============================================================ */
+
+function scrollToTop() {
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+
+/* ============================================================
+   ESC KEY
+============================================================ */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (event.key === "Escape") {
+            closeCart();
+            closeProductModal();
+            closeCheckoutModal();
+            closeReceiptModal();
+            closeWhatsAppModal();
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

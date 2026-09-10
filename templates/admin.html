@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMO CAFE — Admin & Kitchen Dashboard</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --cream: #fffaf3;
+            --cream-dark: #f6eee3;
+            --white: #ffffff;
+            --brown: #3b2419;
+            --brown-dark: #24140d;
+            --orange: #c87935;
+            --orange-dark: #aa5e24;
+            --orange-light: #e69d5a;
+            --text: #2f211a;
+            --text-light: #73645b;
+            --text-muted: #9c8d83;
+            --border: #eadfd2;
+            --success: #2e7d32;
+            --success-bg: #e8f5e9;
+            --warning: #ef6c00;
+            --warning-bg: #fff3e0;
+            --info: #0277bd;
+            --info-bg: #e1f5fe;
+            --danger: #c62828;
+            --danger-bg: #ffebee;
+            --shadow: 0 10px 30px rgba(59, 36, 25, 0.08);
+            --shadow-lg: 0 20px 50px rgba(59, 36, 25, 0.12);
+            --radius-sm: 8px;
+            --radius: 16px;
+            --radius-full: 9999px;
+            --transition: all 0.25s ease;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background-color: var(--cream);
+            color: var(--text);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        /* ----------------------------------------------------
+           LOGIN VIEW
+        ---------------------------------------------------- */
+        .admin-login-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: radial-gradient(circle at top right, rgba(200, 121, 53, 0.15) 0%, transparent 60%),
+                        linear-gradient(135deg, #fffaf3 0%, #f6eee3 100%);
+        }
+
+        .admin-login-card {
+            width: min(440px, 100%);
+            background: #ffffff;
+            border-radius: var(--radius);
+            padding: 40px 36px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .admin-login-logo {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: var(--brown);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Playfair Display", serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 auto 16px;
+            box-shadow: 0 6px 16px rgba(59, 36, 25, 0.2);
+        }
+
+        .admin-login-card h2 {
+            font-family: "Playfair Display", serif;
+            font-size: 26px;
+            color: var(--brown);
+            margin-bottom: 6px;
+        }
+
+        .admin-login-card p {
+            color: var(--text-light);
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+
+        .admin-login-card form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            text-align: left;
+        }
+
+        .admin-login-card label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--brown);
+            margin-bottom: 6px;
+        }
+
+        .admin-login-card input {
+            width: 100%;
+            height: 48px;
+            padding: 0 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: var(--cream);
+            font-size: 14px;
+            color: var(--brown);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .admin-login-card input:focus {
+            border-color: var(--orange);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(200, 121, 53, 0.1);
+        }
+
+        .admin-login-btn {
+            height: 50px;
+            background: var(--brown);
+            color: #ffffff;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .admin-login-btn:hover {
+            background: var(--orange);
+            transform: translateY(-2px);
+        }
+
+        .login-error-banner {
+            background: var(--danger-bg);
+            color: var(--danger);
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        /* ----------------------------------------------------
+           DASHBOARD VIEW
+        ---------------------------------------------------- */
+        .admin-navbar {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 32px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(59, 36, 25, 0.04);
+        }
+
+        .admin-nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .admin-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-brand-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--brown);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Playfair Display", serif;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .admin-brand-text strong {
+            font-family: "Playfair Display", serif;
+            font-size: 20px;
+            letter-spacing: 1.5px;
+            color: var(--brown);
+            display: block;
+            line-height: 1;
+        }
+
+        .admin-brand-text small {
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: var(--orange);
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .admin-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .live-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #2e7d32;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.5; }
+        }
+
+        .logout-btn {
+            background: var(--cream);
+            color: var(--brown);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .logout-btn:hover {
+            background: var(--brown);
+            color: #ffffff;
+        }
+
+        .home-link-btn {
+            background: transparent;
+            color: var(--orange);
+            font-size: 13px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .home-link-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Container */
+        .admin-main {
+            max-width: 1400px;
+            margin: 32px auto;
+            padding: 0 24px 60px;
+        }
+
+        /* Metrics Row */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.revenue { background: #fff3e0; color: #ef6c00; }
+        .stat-icon.orders { background: #e1f5fe; color: #0277bd; }
+        .stat-icon.active { background: #fff8e1; color: #f57f17; }
+        .stat-icon.completed { background: #e8f5e9; color: #2e7d32; }
+
+        .stat-details small {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .stat-details strong {
+            font-family: "Playfair Display", serif;
+            font-size: 26px;
+            color: var(--brown);
+            line-height: 1;
+        }
+
+        /* Controls Toolbar */
+        .controls-toolbar {
+            background: #ffffff;
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            box-shadow: var(--shadow);
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            background: var(--cream);
+            color: var(--text-light);
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .filter-tab:hover {
+            border-color: var(--orange);
+            color: var(--orange);
+        }
+
+        .filter-tab.active {
+            background: var(--brown);
+            color: #ffffff;
+            border-color: var(--brown);
+        }
+
+        .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .refresh-btn {
+            background: var(--cream);
+            color: var(--brown);
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .refresh-btn:hover {
+            border-color: var(--orange);
+            color: var(--orange);
+        }
+
+        /* Orders Grid */
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 24px;
+        }
+
+        .order-card {
+            background: #ffffff;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .order-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(200, 121, 53, 0.3);
+        }
+
+        .order-card.status-received { border-top: 4px solid var(--info); }
+        .order-card.status-preparing { border-top: 4px solid var(--warning); }
+        .order-card.status-ready { border-top: 4px solid var(--orange); }
+        .order-card.status-completed { border-top: 4px solid var(--success); opacity: 0.85; }
+        .order-card.status-cancelled { border-top: 4px solid var(--danger); opacity: 0.6; }
+
+        .order-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .order-id-block strong {
+            font-size: 16px;
+            color: var(--brown);
+            display: block;
+        }
+
+        .order-id-block small {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .order-type-tag {
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            background: var(--cream);
+            border: 1px solid var(--border);
+            color: var(--brown);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Customer Info */
+        .customer-bar {
+            background: var(--cream);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .cust-text strong {
+            display: block;
+            font-size: 13px;
+            color: var(--brown);
+        }
+
+        .cust-text small {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .cust-quick-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .quick-action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .quick-action-btn.call:hover { background: #e8f5e9; color: #2e7d32; border-color: #2e7d32; }
+        .quick-action-btn.whatsapp:hover { background: #e0f2f1; color: #00897b; border-color: #00897b; }
+
+        /* Order Items */
+        .items-box {
+            border-top: 1px dashed var(--border);
+            border-bottom: 1px dashed var(--border);
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .item-line {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+
+        .item-line div {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .item-qty-badge {
+            background: var(--cream-dark);
+            color: var(--brown);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 1px 6px;
+            border-radius: 4px;
+        }
+
+        .item-size-tag {
+            color: var(--orange);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* Order Totals & Payment */
+        .order-footer-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .total-amount-display {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--brown);
+        }
+
+        .payment-badge-btn {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+        }
+
+        .payment-badge-btn.paid {
+            background: var(--success-bg);
+            color: var(--success);
+            border: 1px solid rgba(46, 125, 50, 0.3);
+        }
+
+        .payment-badge-btn.pending {
+            background: var(--warning-bg);
+            color: var(--warning);
+            border: 1px solid rgba(239, 108, 0, 0.3);
+        }
+
+        .payment-badge-btn.whatsapp {
+            background: #e8f5e9;
+            color: #128c7e;
+            border: 1px solid rgba(18, 140, 126, 0.3);
+        }
+
+        /* Status Controls */
+        .order-actions-bar {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .action-status-btn {
+            padding: 10px;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .action-status-btn.btn-preparing { background: var(--warning); color: #ffffff; }
+        .action-status-btn.btn-preparing:hover { background: #e65100; }
+
+        .action-status-btn.btn-ready { background: var(--orange); color: #ffffff; }
+        .action-status-btn.btn-ready:hover { background: var(--orange-dark); }
+
+        .action-status-btn.btn-complete { background: var(--success); color: #ffffff; }
+        .action-status-btn.btn-complete:hover { background: #1b5e20; }
+
+        .action-status-btn.btn-done { background: var(--cream-dark); color: var(--text-muted); cursor: default; }
+
+        .kot-print-btn {
+            padding: 10px 14px;
+            background: var(--cream);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+        }
+
+        .kot-print-btn:hover {
+            background: var(--brown);
+            color: #ffffff;
+        }
+
+        .empty-orders-view {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 20px;
+            background: #ffffff;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .empty-orders-view span {
+            font-size: 56px;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .empty-orders-view h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 24px;
+            color: var(--brown);
+            margin-bottom: 6px;
+        }
+
+        /* KOT Print Styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .kot-print-target, .kot-print-target * {
+                visibility: visible;
+            }
+            .kot-print-target {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 80mm;
+                padding: 10mm;
+                background: #fff;
+                color: #000;
+                font-family: monospace;
+            }
+        }
+    </style>
+</head>
+<body>
+
+{% if show_login %}
+<!-- =========================================================
+     ADMIN LOGIN SCREEN
+========================================================= -->
+<div class="admin-login-wrapper">
+    <div class="admin-login-card">
+        <div class="admin-login-logo">L</div>
+        <h2>LUMO CAFE ADMIN</h2>
+        <p>Kitchen & Live Orders Management</p>
+
+        {% if login_error %}
+        <div class="login-error-banner">
+            {{ login_error }}
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('admin_login') }}">
+            <div>
+                <label for="adminEmail">Admin Email</label>
+                <input type="email" id="adminEmail" name="email" required placeholder="admin@lumocafe.com" autocomplete="email" autofocus>
+            </div>
+            <div>
+                <label for="adminPassword">Password</label>
+                <input type="password" id="adminPassword" name="password" required placeholder="Enter password" autocomplete="current-password">
+            </div>
+            <button type="submit" class="admin-login-btn">
+                <span>Sign In to Dashboard</span>
+                <span>→</span>
+            </button>
+        </form>
+
+        <div style="margin-top: 20px;">
+            <a href="{{ url_for('home') }}" style="font-size: 12px; color: var(--orange); font-weight: 700;">
+                ← Back to Cafe Website
+            </a>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<!-- =========================================================
+     ADMIN DASHBOARD VIEW
+========================================================= -->
+<header class="admin-navbar">
+    <div class="admin-nav-content">
+        <div class="admin-brand">
+            <div class="admin-brand-mark">L</div>
+            <div class="admin-brand-text">
+                <strong>LUMO CAFE</strong>
+                <small>KITCHEN & ORDER DESK</small>
+            </div>
+        </div>
+
+        <div class="admin-nav-actions">
+            <div class="live-status-pill">
+                <span class="live-dot"></span>
+                <span>LIVE SYNC</span>
+            </div>
+            <a href="{{ url_for('home') }}" target="_blank" class="home-link-btn">
+                Visit Website ↗
+            </a>
+            <a href="{{ url_for('admin_logout') }}" class="logout-btn">
+                Logout
+            </a>
+        </div>
+    </div>
+</header>
+
+<main class="admin-main">
+    <!-- Stats Row -->
+    <section class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon revenue">₹</div>
+            <div class="stat-details">
+                <small>Today's Revenue</small>
+                <strong>₹{{ stats.today_revenue }}</strong>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon orders">📦</div>
+            <div class="stat-details">
+                <small>Today's Orders</small>
+                <strong>{{ stats.today_orders }}</strong>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon active">🍳</div>
+            <div class="stat-details">
+                <small>Active in Kitchen</small>
+                <strong style="color: var(--warning);">{{ stats.active_orders }}</strong>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon completed">✅</div>
+            <div class="stat-details">
+                <small>Completed Orders</small>
+                <strong style="color: var(--success);">{{ stats.completed_orders }}</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toolbar -->
+    <div class="controls-toolbar">
+        <div class="filter-tabs">
+            <button class="filter-tab active" onclick="filterDashboard('all')">All Orders ({{ orders|length }})</button>
+            <button class="filter-tab" onclick="filterDashboard('received')">Received</button>
+            <button class="filter-tab" onclick="filterDashboard('preparing')">Preparing</button>
+            <button class="filter-tab" onclick="filterDashboard('ready')">Ready</button>
+            <button class="filter-tab" onclick="filterDashboard('completed')">Completed</button>
+            <button class="filter-tab" onclick="filterDashboard('whatsapp')">💬 WhatsApp</button>
+        </div>
+
+        <div class="toolbar-right">
+            <button class="refresh-btn" onclick="fetchLiveOrders()">
+                🔄 Refresh Now
+            </button>
+        </div>
+    </div>
+
+    <!-- Orders Cards Grid -->
+    <section class="orders-grid" id="ordersGrid">
+        {% if orders %}
+            {% for order in orders %}
+            <article class="order-card status-{{ order.order_status }}" id="order-card-{{ order.order_id }}" data-status="{{ order.order_status }}" data-payment="{{ order.payment_method }}">
+                <div class="order-card-header">
+                    <div class="order-id-block">
+                        <strong>#{{ order.order_id }}</strong>
+                        <small>{{ order.created_at }}</small>
+                    </div>
+                    <span class="order-type-tag">
+                        {% if order.order_type == 'Dine-in' %}🍽️
+                        {% elif order.order_type == 'Delivery' %}🛵
+                        {% else %}🛍️{% endif %}
+                        {{ order.order_type }}
+                        {% if order.address_or_table and order.order_type != 'Takeaway' %}
+                            • {{ order.address_or_table }}
+                        {% endif %}
+                    </span>
+                </div>
+
+                <!-- Customer Info -->
+                <div class="customer-bar">
+                    <div class="cust-text">
+                        <strong>{{ order.customer_name }}</strong>
+                        <small>📞 {{ order.customer_phone }}</small>
+                    </div>
+                    <div class="cust-quick-actions">
+                        <a href="tel:{{ order.customer_phone }}" class="quick-action-btn call" title="Call Customer">📞</a>
+                        <a href="https://wa.me/91{{ order.customer_phone }}?text=Hi%20{{ order.customer_name }},%20your%20LUMO%20CAFE%20order%20%23{{ order.order_id }}%20is%20ready!%20%E2%98%95%F0%9F%8D%94" 
+                           target="_blank" class="quick-action-btn whatsapp" title="WhatsApp Customer">💬</a>
+                    </div>
+                </div>
+
+                <!-- Items Breakdown -->
+                <div class="items-box">
+                    {% for item in order.items %}
+                    <div class="item-line">
+                        <div>
+                            <span class="item-qty-badge">{{ item.quantity }}x</span>
+                            <span>{{ item.item_name }}</span>
+                            {% if item.item_size %}
+                            <small class="item-size-tag">({{ item.item_size }})</small>
+                            {% endif %}
+                        </div>
+                        <strong>₹{{ (item.item_price * item.quantity)|int }}</strong>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Meta / Payment -->
+                <div class="order-footer-meta">
+                    <span class="total-amount-display">₹{{ order.total_amount|int }}</span>
+                    <button class="payment-badge-btn {{ order.payment_status }}{% if order.payment_method == 'whatsapp' %} whatsapp{% endif %}" onclick="togglePaymentStatus('{{ order.order_id }}', '{{ order.payment_status }}')">
+                        {% if order.payment_method == 'whatsapp' %}💬 {% endif %}{{ order.payment_status|upper }} • {{ order.payment_method|upper|replace('_', ' ') }}
+                    </button>
+                </div>
+
+                <!-- Status Action Buttons -->
+                <div class="order-actions-bar">
+                    {% if order.order_status in ('received', 'awaiting_payment') %}
+                        <button class="action-status-btn btn-preparing" onclick="updateOrderStatus('{{ order.order_id }}', 'preparing')">
+                            🍳 Start Preparing
+                        </button>
+                    {% elif order.order_status == 'preparing' %}
+                        <button class="action-status-btn btn-ready" onclick="updateOrderStatus('{{ order.order_id }}', 'ready')">
+                            🔔 Mark as Ready
+                        </button>
+                    {% elif order.order_status == 'ready' %}
+                        <button class="action-status-btn btn-complete" onclick="updateOrderStatus('{{ order.order_id }}', 'completed')">
+                            ✔️ Complete Order
+                        </button>
+                    {% else %}
+                        <button class="action-status-btn btn-done" disabled>
+                            ✓ Completed
+                        </button>
+                    {% endif %}
+
+                    <button class="kot-print-btn" onclick="printKOT('{{ order.order_id }}')" title="Print Kitchen Ticket">
+                        🖨️ KOT
+                    </button>
+                </div>
+            </article>
+            {% endfor %}
+        {% else %}
+            <div class="empty-orders-view">
+                <span>🍽️</span>
+                <h3>No orders placed yet</h3>
+                <p>New orders will automatically appear here in real-time.</p>
+            </div>
+        {% endif %}
+    </section>
+</main>
+
+<!-- Hidden Printable KOT Container -->
+<div id="kotPrintContainer" class="kot-print-target" style="display: none;"></div>
+
+<script>
+    let currentFilter = 'all';
+
+    function filterDashboard(status) {
+        currentFilter = status;
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.classList.remove('active');
+            const tabText = tab.textContent.toLowerCase();
+            if (status === 'all' && tabText.includes('all orders')) {
+                tab.classList.add('active');
+            } else if (status !== 'all' && tabText.includes(status)) {
+                tab.classList.add('active');
+            }
+        });
+
+        document.querySelectorAll('.order-card').forEach(card => {
+            const cardStatus = card.getAttribute('data-status');
+            const cardPayment = card.getAttribute('data-payment');
+
+            if (status === 'all') {
+                card.style.display = 'flex';
+            } else if (status === 'whatsapp') {
+                card.style.display = cardPayment === 'whatsapp' ? 'flex' : 'none';
+            } else if (cardStatus === status) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    async function updateOrderStatus(orderId, nextStatus) {
+        try {
+            const res = await fetch('/api/admin/update-status', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ order_id: orderId, status: nextStatus })
+            });
+            const data = await res.json();
+            if (data.success) {
+                window.location.reload();
+            } else {
+                alert(data.error || 'Failed to update order');
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function togglePaymentStatus(orderId, currentStatus) {
+        const nextPaymentStatus = currentStatus === 'paid' ? 'pending' : 'paid';
+        try {
+            const res = await fetch('/api/admin/update-payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ order_id: orderId, payment_status: nextPaymentStatus })
+            });
+            const data = await res.json();
+            if (data.success) {
+                window.location.reload();
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    function printKOT(orderId) {
+        const card = document.getElementById('order-card-' + orderId);
+        if (!card) return;
+        const container = document.getElementById('kotPrintContainer');
+        container.innerHTML = `
+            <h2>LUMO CAFE — KITCHEN KOT</h2>
+            <p><strong>Order:</strong> #${orderId}</p>
+            <p><strong>Date:</strong> ${new Date().toLocaleTimeString()}</p>
+            <hr style="margin: 8px 0;">
+            ${card.querySelector('.items-box').innerHTML}
+            <hr style="margin: 8px 0;">
+            <p>${card.querySelector('.order-type-tag').innerText}</p>
+            <p>${card.querySelector('.cust-text').innerText}</p>
+        `;
+        container.style.display = 'block';
+        window.print();
+        container.style.display = 'none';
+    }
+
+    // Auto-polling for new orders every 12 seconds
+    let lastKnownOrdersCount = {{ orders|length }};
+    setInterval(async function () {
+        try {
+            const res = await fetch('/api/admin/orders');
+            const data = await res.json();
+            if (data.success && data.orders) {
+                if (data.orders.length > lastKnownOrdersCount) {
+                    playChime();
+                    window.location.reload();
+                }
+            }
+        } catch (e) {}
+    }, 12000);
+
+    function playChime() {
+        try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+            osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.15); // A5
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.5);
+        } catch (e) {}
+    }
+
+    function fetchLiveOrders() {
+        window.location.reload();
+    }
+</script>
+{% endif %}
+
+</body>
+</html>

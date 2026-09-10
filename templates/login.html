@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login | LUMO CAFE</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/login.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- Background Decoration -->
+
+    <div class="background-shape shape-one"></div>
+    <div class="background-shape shape-two"></div>
+    <div class="background-shape shape-three"></div>
+
+
+    <!-- MAIN -->
+
+    <main class="login-page">
+
+
+        <!-- LEFT SIDE -->
+
+        <section class="login-brand">
+
+            <div class="brand-content">
+
+                <a href="/" class="brand-logo">
+
+                    <div class="brand-mark">
+                        L
+                    </div>
+
+                    <div class="brand-name">
+
+                        <strong>LUMO</strong>
+
+                        <span>CAFE</span>
+
+                    </div>
+
+                </a>
+
+
+                <div class="brand-message">
+
+                    <span class="small-title">
+                        WELCOME TO
+                    </span>
+
+                    <h1>
+                        Your daily<br>
+                        dose of <em>comfort.</em>
+                    </h1>
+
+                    <p>
+                        Good coffee, delicious food and
+                        beautiful moments — all waiting
+                        for you at LUMO CAFE.
+                    </p>
+
+                </div>
+
+
+                <div class="brand-feature">
+
+                    <div class="feature-icon">
+                        ☕
+                    </div>
+
+                    <div>
+                        <strong>
+                            Freshly brewed
+                        </strong>
+
+                        <span>
+                            Made with love in Tilhar
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="brand-bottom">
+
+                <span>
+                    © 2026 LUMO CAFE
+                </span>
+
+                <span>
+                    Tilhar
+                </span>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- RIGHT SIDE -->
+
+        <section class="login-section">
+
+
+            <div class="login-card">
+
+
+                <!-- Mobile Logo -->
+
+                <div class="mobile-logo">
+
+                    <div class="brand-mark">
+                        L
+                    </div>
+
+                    <div class="brand-name">
+
+                        <strong>LUMO</strong>
+
+                        <span>CAFE</span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Heading -->
+
+                <div class="login-heading">
+
+                    <span>
+                        WELCOME BACK
+                    </span>
+
+                    <h2>
+                        Sign <em>in.</em>
+                    </h2>
+
+                    <p>
+                        Login to continue your LUMO experience.
+                    </p>
+
+                </div>
+
+
+                <!-- Login Form -->
+
+                <form
+                     id="loginForm"
+                    class="login-form"
+                    method="POST"
+                    action="{{ url_for('login') }}"
+                >
+                     {% if error %}
+
+                     <div class="login-error">
+                     {{ error }}
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- Email -->
+
+                    <div class="input-group">
+
+                        <label for="email">
+                            Email address
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                ✉
+                            </span>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Enter your email"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                        <small
+                            class="error-message"
+                            id="emailError"
+                        ></small>
+
+                    </div>
+
+
+
+                    <!-- Password -->
+
+                    <div class="input-group">
+
+                        <div class="password-label">
+
+                            <label for="password">
+                                Password
+                            </label>
+
+                            <a href="#" id="forgotPassword">
+                                Forgot password?
+                            </a>
+
+                        </div>
+
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                🔒
+                            </span>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                id="passwordToggle"
+                                aria-label="Show password"
+                            >
+                                👁
+                            </button>
+
+                        </div>
+
+                        <small
+                            class="error-message"
+                            id="passwordError"
+                        ></small>
+
+                    </div>
+
+
+
+                    <!-- Remember -->
+
+                    <div class="form-options">
+
+                        <label class="remember">
+
+                            <input
+                                type="checkbox"
+                                id="remember"
+                            >
+
+                            <span class="custom-checkbox"></span>
+
+                            <span>
+                                Remember me
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+
+                    <!-- Login Button -->
+
+                    <button
+                        type="submit"
+                        class="login-submit"
+                        id="loginButton"
+                    >
+
+                        <span class="button-text">
+                            Sign in
+                        </span>
+
+                        <span class="button-arrow">
+                            →
+                        </span>
+
+                        <span
+                            class="button-loader"
+                            id="buttonLoader"
+                        ></span>
+
+                    </button>
+
+
+                </form>
+
+
+
+                <!-- Divider -->
+
+                <div class="divider">
+
+                    <span></span>
+
+                    <p>OR CONTINUE WITH</p>
+
+                    <span></span>
+
+                </div>
+
+
+
+                <!-- Social -->
+
+                <div class="social-login">
+
+                    <button
+                        type="button"
+                        class="social-btn"
+                        id="googleLogin"
+                    >
+
+                        <span class="google-icon">
+                            G
+                        </span>
+
+                        Google
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="social-btn"
+                        id="guestLogin"
+                    >
+
+                        <span>
+                            👤
+                        </span>
+
+                        Guest
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- Signup -->
+
+                <div class="signup">
+
+                    <span>
+                        Don't have an account?
+                    </span>
+
+                    <a href="{{ url_for('register') }}">
+                             Create account
+                    </a>
+
+                </div>
+
+
+
+                <!-- Home -->
+
+                <a
+                    href="/"
+                    class="back-home"
+                >
+
+                    <span>←</span>
+
+                    Back to LUMO CAFE
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- Notification -->
+
+    <div
+        class="notification"
+        id="notification"
+    >
+
+        <span id="notificationIcon">
+            ✓
+        </span>
+
+        <div>
+
+            <strong id="notificationTitle">
+                Success
+            </strong>
+
+            <p id="notificationMessage">
+                Login successful.
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <script
+        src="{{ url_for('static', filename='js/login.js') }}"
+    ></script>
+
+</body>
+
+</html>

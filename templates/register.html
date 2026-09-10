@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Account | LUMO CAFE</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/login.css') }}"
+    >
+
+</head>
+
+<body>
+
+    <div class="background-shape shape-one"></div>
+    <div class="background-shape shape-two"></div>
+    <div class="background-shape shape-three"></div>
+
+
+    <main class="login-page">
+
+
+        <!-- BRAND -->
+
+        <section class="login-brand">
+
+            <div class="brand-content">
+
+                <a href="/" class="brand-logo">
+
+                    <div class="brand-mark">
+                        L
+                    </div>
+
+                    <div class="brand-name">
+
+                        <strong>LUMO</strong>
+
+                        <span>CAFE</span>
+
+                    </div>
+
+                </a>
+
+
+                <div class="brand-message">
+
+                    <span class="small-title">
+                        JOIN LUMO
+                    </span>
+
+                    <h1>
+                        Create your<br>
+                        <em>coffee story.</em>
+                    </h1>
+
+                    <p>
+                        Create your LUMO account and
+                        enjoy a faster and better ordering
+                        experience.
+                    </p>
+
+                </div>
+
+
+                <div class="brand-feature">
+
+                    <div class="feature-icon">
+                        ☕
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Made for coffee lovers
+                        </strong>
+
+                        <span>
+                            Fresh food • Good coffee • Great moments
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="brand-bottom">
+
+                <span>
+                    © 2026 LUMO CAFE
+                </span>
+
+                <span>
+                    Tilhar
+                </span>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- REGISTER -->
+
+        <section class="login-section">
+
+            <div class="login-card">
+
+
+                <!-- Mobile logo -->
+
+                <div class="mobile-logo">
+
+                    <div class="brand-mark">
+                        L
+                    </div>
+
+                    <div class="brand-name">
+
+                        <strong>LUMO</strong>
+
+                        <span>CAFE</span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Heading -->
+
+                <div class="login-heading">
+
+                    <span>
+                        NEW HERE?
+                    </span>
+
+                    <h2>
+                        Create <em>account.</em>
+                    </h2>
+
+                    <p>
+                        Join LUMO CAFE in just a few seconds.
+                    </p>
+
+                </div>
+
+
+                <!-- Error -->
+
+                {% if error %}
+                <div class="login-error">
+                    {{ error }}
+                </div>
+                {% endif %}
+
+
+                <!-- FORM -->
+
+                <form
+                    class="login-form"
+                    method="POST"
+                    action="{{ url_for('register') }}"
+                >
+
+
+                    <!-- NAME -->
+
+                    <div class="input-group">
+
+                        <label for="name">
+                            Full name
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                👤
+                            </span>
+
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                placeholder="Enter your name"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="input-group">
+
+                        <label for="email">
+                            Email address
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                ✉
+                            </span>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Enter your email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="input-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                🔒
+                            </span>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Create a password"
+                                minlength="6"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SUBMIT -->
+
+                    <button
+                        type="submit"
+                        class="login-submit"
+                    >
+
+                        <span class="button-text">
+                            Create account
+                        </span>
+
+                        <span class="button-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+                </form>
+
+
+                <!-- LOGIN -->
+
+                <div class="signup">
+
+                    <span>
+                        Already have an account?
+                    </span>
+
+                    <a href="{{ url_for('login') }}">
+                        Sign in
+                    </a>
+
+                </div>
+
+
+                <!-- HOME -->
+
+                <a
+                    href="/"
+                    class="back-home"
+                >
+
+                    <span>←</span>
+
+                    Back to LUMO CAFE
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
